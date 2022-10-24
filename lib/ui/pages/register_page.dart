@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+import 'package:test_fauzan/provider/register_provider.dart';
 import 'package:test_fauzan/ui/common/style.dart';
 import 'package:test_fauzan/ui/common/widget.dart';
 import 'package:test_fauzan/ui/pages/login_page.dart';
@@ -60,9 +62,20 @@ class _RegisterPageState extends State<RegisterPage> {
                     controller: passController),
                 ElevatedButton(
                   onPressed: () {
-                    ScaffoldMessenger.of(context)
-                        .showSnackBar(const SnackBar(content: Text('Success')));
-                    Navigator.pushNamed(context, LoginPage.route);
+                    if (nameController.text.isNotEmpty &&
+                        emailController.text.isNotEmpty &&
+                        emailController.text.contains('@') &&
+                        passController.text.isNotEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('Success')));
+                      Provider.of<RegisterProvider>(context, listen: false)
+                          .register(nameController.text, emailController.text,
+                              passController.text);
+                      Navigator.pushNamed(context, LoginPage.route);
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                          content: Text('Please check your form again')));
+                    }
                   },
                   style: ElevatedButton.styleFrom(
                       backgroundColor: Style.secondaryColor),
