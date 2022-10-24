@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+import 'package:test_fauzan/provider/login_provider.dart';
 import 'package:test_fauzan/ui/common/style.dart';
 import 'package:test_fauzan/ui/common/widget.dart';
+import 'package:test_fauzan/ui/pages/home_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -53,7 +56,21 @@ class _LoginPageState extends State<LoginPage> {
                     isObscure: true,
                     controller: passController),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    if (emailController.text.isNotEmpty &&
+                        emailController.text.contains('@') &&
+                        passController.text.isNotEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('Success')));
+                      var user =
+                          Provider.of<LoginProvider>(context, listen: false)
+                              .login(emailController.text, passController.text);
+                      Navigator.pushNamed(context, HomePage.route);
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                          content: Text('Please check your form again')));
+                    }
+                  },
                   style: ElevatedButton.styleFrom(
                       backgroundColor: Style.secondaryColor),
                   child: Text(
