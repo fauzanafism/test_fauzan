@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:test_fauzan/data/api/api_service.dart';
 import 'package:test_fauzan/provider/list_user_provider.dart';
 import 'package:test_fauzan/provider/user_account_provider.dart';
 import 'package:test_fauzan/ui/pages/home_page.dart';
@@ -19,7 +20,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<UserAccountProvider>(
-          create: (_) => UserAccountProvider(),
+          create: (_) => UserAccountProvider(apiService: ApiService()),
         ),
         ChangeNotifierProvider<ListUserProvider>(
           create: (_) => ListUserProvider(),
