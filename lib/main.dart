@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:test_fauzan/data/api/api_service.dart';
-import 'package:test_fauzan/provider/list_user_provider.dart';
+import 'package:test_fauzan/provider/home_provider.dart';
 import 'package:test_fauzan/provider/register_provider.dart';
 import 'package:test_fauzan/ui/pages/home_page.dart';
 import 'package:test_fauzan/ui/pages/login_page.dart';
@@ -22,8 +22,8 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<RegisterProvider>(
           create: (_) => RegisterProvider(apiService: ApiService()),
         ),
-        ChangeNotifierProvider<ListUserProvider>(
-          create: (_) => ListUserProvider(),
+        ChangeNotifierProvider<HomeProvider>(
+          create: (_) => HomeProvider(),
         )
       ],
       child: MaterialApp(
