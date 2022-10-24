@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:test_fauzan/provider/list_user_provider.dart';
 import 'package:test_fauzan/provider/user_account_provider.dart';
+import 'package:test_fauzan/ui/pages/home_page.dart';
 import 'package:test_fauzan/ui/pages/login_page.dart';
 import 'package:test_fauzan/ui/pages/register_page.dart';
 import 'package:test_fauzan/ui/pages/wrapper.dart';
@@ -31,6 +32,7 @@ class MyApp extends StatelessWidget {
           Wrapper.route: (context) => const Wrapper(),
           RegisterPage.route: (context) => const RegisterPage(),
           LoginPage.route: (context) => const LoginPage(),
+          HomePage.route: (context) => const HomePage(),
         },
       ),
     );
