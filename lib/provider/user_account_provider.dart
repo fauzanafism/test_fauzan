@@ -18,6 +18,7 @@ class UserAccountProvider extends ChangeNotifier {
   }
 
   bool _isLogin = false;
+  bool get isLogin => _isLogin;
 
   late UserAccount _user;
 }
