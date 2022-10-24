@@ -4,7 +4,7 @@ import 'package:test_fauzan/data/model/user_account.dart';
 
 import '../data/api/api_service.dart';
 
-enum RegisterState { loading, failed, success }
+enum RegisterState { loading, failed, success, error }
 
 class UserAccountProvider extends ChangeNotifier {
   final ApiService apiService;
@@ -25,7 +25,7 @@ class UserAccountProvider extends ChangeNotifier {
 
   String _message = '';
   String get message => _message;
-  
+
   bool _isLogin = false;
   bool get isLogin => _isLogin;
 
@@ -33,24 +33,26 @@ class UserAccountProvider extends ChangeNotifier {
   RegisterState get registerState => _registerState;
 
   late UserAccount _user;
+  UserAccount get user => _user;
 
   Future<dynamic> register(String name, String email, String password) async {
     try {
+      _registerState = RegisterState.loading;
       notifyListeners();
       final user = await apiService.register(name, email, password);
       if (user.data == null) {
-        _registerState = RegisterState.loading
+        _registerState = RegisterState.failed;
         notifyListeners();
-        return _message = 'Empty data';
+        return _message = 'Failed';
       } else {
-        // _resultState = ResultState.hasData;
-        // notifyListeners();
-        // return _restoList = resto;
+        _registerState = RegisterState.success;
+        notifyListeners();
+        return _user = user;
       }
-    } catch (_) {
-      // _resultState = ResultState.error;
-      // notifyListeners();
-      // return _message = 'No internet connection';
+    } catch (e) {
+      _registerState = RegisterState.error;
+      notifyListeners();
+      return _message = '$e';
     }
   }
 }
