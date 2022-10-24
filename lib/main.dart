@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
         )
       ],
       child: MaterialApp(
-        title: 'Flutter Demo',
+        title: 'Test Fauzan App',
         initialRoute: Wrapper.route,
         routes: {
           Wrapper.route: (context) => const Wrapper(),
