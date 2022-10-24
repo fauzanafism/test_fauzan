@@ -4,13 +4,12 @@
 
 import 'dart:convert';
 
-UserResult userResultFromJson(String str) =>
-    UserResult.fromJson(json.decode(str));
+ListUser userResultFromJson(String str) => ListUser.fromJson(json.decode(str));
 
-String userResultToJson(UserResult data) => json.encode(data.toJson());
+String userResultToJson(ListUser data) => json.encode(data.toJson());
 
-class UserResult {
-  UserResult({
+class ListUser {
+  ListUser({
     required this.id,
     required this.page,
     required this.perPage,
@@ -26,7 +25,7 @@ class UserResult {
   final int totalPages;
   final List<Datum> data;
 
-  factory UserResult.fromJson(Map<String, dynamic> json) => UserResult(
+  factory ListUser.fromJson(Map<String, dynamic> json) => ListUser(
         id: json["\u0024id"],
         page: json["page"],
         perPage: json["per_page"],

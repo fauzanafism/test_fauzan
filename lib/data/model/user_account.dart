@@ -4,13 +4,13 @@
 
 import 'dart:convert';
 
-RegisterLogin registerFromJson(String str) =>
-    RegisterLogin.fromJson(json.decode(str));
+UserAccount registerFromJson(String str) =>
+    UserAccount.fromJson(json.decode(str));
 
-String registerToJson(RegisterLogin data) => json.encode(data.toJson());
+String registerToJson(UserAccount data) => json.encode(data.toJson());
 
-class RegisterLogin {
-  RegisterLogin({
+class UserAccount {
+  UserAccount({
     required this.id,
     required this.code,
     required this.message,
@@ -22,7 +22,7 @@ class RegisterLogin {
   final String message;
   final Data? data;
 
-  factory RegisterLogin.fromJson(Map<String, dynamic> json) => RegisterLogin(
+  factory UserAccount.fromJson(Map<String, dynamic> json) => UserAccount(
         id: json["\u0024id"],
         code: json["code"],
         message: json["message"],
