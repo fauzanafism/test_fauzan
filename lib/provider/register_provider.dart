@@ -6,10 +6,10 @@ import '../data/api/api_service.dart';
 
 enum RegisterState { loading, failed, success, error }
 
-class UserAccountProvider extends ChangeNotifier {
+class RegisterProvider extends ChangeNotifier {
   final ApiService apiService;
 
-  UserAccountProvider({required this.apiService}) {
+  RegisterProvider({required this.apiService}) {
     getLoginInfo();
   }
 

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:test_fauzan/data/api/api_service.dart';
 import 'package:test_fauzan/provider/list_user_provider.dart';
-import 'package:test_fauzan/provider/user_account_provider.dart';
+import 'package:test_fauzan/provider/register_provider.dart';
 import 'package:test_fauzan/ui/pages/home_page.dart';
 import 'package:test_fauzan/ui/pages/login_page.dart';
 import 'package:test_fauzan/ui/pages/register_page.dart';
@@ -19,8 +19,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider<UserAccountProvider>(
-          create: (_) => UserAccountProvider(apiService: ApiService()),
+        ChangeNotifierProvider<RegisterProvider>(
+          create: (_) => RegisterProvider(apiService: ApiService()),
         ),
         ChangeNotifierProvider<ListUserProvider>(
           create: (_) => ListUserProvider(),
