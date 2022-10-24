@@ -19,7 +19,12 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(children: [
-        const Image(image: AssetImage("assets/images/base_splash.png")),
+        Container(
+          constraints: const BoxConstraints.expand(),
+          child: const Image(
+              image: AssetImage("assets/images/base_splash.png"),
+              fit: BoxFit.cover),
+        ),
         Center(
           child: Container(
             width: 279,
@@ -38,6 +43,7 @@ class _LoginPageState extends State<LoginPage> {
                       fontSize: 20,
                       fontWeight: FontWeight.bold),
                 ),
+                const Divider(),
                 CustomTextField(
                     hintText: 'Email',
                     isObscure: false,
@@ -58,7 +64,9 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 const Divider(),
                 TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
                     child: Text(
                       'Register',
                       style: GoogleFonts.mulish(color: Colors.white),

@@ -21,7 +21,12 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(children: [
-        const Image(image: AssetImage("assets/images/base_splash.png")),
+        Container(
+          constraints: const BoxConstraints.expand(),
+          child: const Image(
+              image: AssetImage("assets/images/base_splash.png"),
+              fit: BoxFit.cover),
+        ),
         Center(
           child: Container(
             width: 279,
@@ -40,6 +45,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       fontSize: 20,
                       fontWeight: FontWeight.bold),
                 ),
+                const Divider(),
                 CustomTextField(
                     hintText: 'Name',
                     isObscure: false,
@@ -53,7 +59,11 @@ class _RegisterPageState extends State<RegisterPage> {
                     isObscure: true,
                     controller: passController),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    ScaffoldMessenger.of(context)
+                        .showSnackBar(const SnackBar(content: Text('Success')));
+                    Navigator.pushNamed(context, LoginPage.route);
+                  },
                   style: ElevatedButton.styleFrom(
                       backgroundColor: Style.secondaryColor),
                   child: Text(
