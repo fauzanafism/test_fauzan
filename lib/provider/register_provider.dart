@@ -23,11 +23,11 @@ class RegisterProvider extends ChangeNotifier {
     prefs.setBool('isLogin', _isLogin);
   }
 
-  String _message = '';
-  String get message => _message;
-
   bool _isLogin = false;
   bool get isLogin => _isLogin;
+
+  String _message = '';
+  String get message => _message;
 
   late RegisterState _registerState;
   RegisterState get registerState => _registerState;
