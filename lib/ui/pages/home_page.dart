@@ -26,30 +26,53 @@ class HomePage extends StatelessWidget {
                 );
               } else if (state.userListState == UserListState.success) {
                 return SafeArea(
-                  child: ListView.builder(
-                    itemCount: state.list.data.length,
-                    itemBuilder: (context, index) {
-                      var list = state.list.data[index];
-                      return Padding(
-                        padding: const EdgeInsets.all(8),
-                        child: Card(
-                          child: ListTile(
-                            leading: Image.network(
-                              list.profilepicture,
-                              width: 100,
-                            ),
-                            title: Text(
-                              list.name,
-                              style: GoogleFonts.mulish(),
-                            ),
-                            subtitle: Text(
-                              list.location,
-                              style: GoogleFonts.mulish(),
-                            ),
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 12.0),
+                        child: Text(
+                          'List of Users',
+                          style: GoogleFonts.mulish(
+                              fontSize: 30,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 8.0, vertical: 20),
+                          child: ListView.builder(
+                            itemCount: state.list.data.length,
+                            itemBuilder: (context, index) {
+                              var list = state.list.data[index];
+                              return Padding(
+                                padding: const EdgeInsets.all(8),
+                                child: Card(
+                                  child: ListTile(
+                                    leading: ClipRRect(
+                                      child: Image.network(
+                                        list.profilepicture,
+                                        width: 50,
+                                      ),
+                                    ),
+                                    title: Text(
+                                      list.name,
+                                      style: GoogleFonts.mulish(
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                    subtitle: Text(
+                                      list.location,
+                                      style: GoogleFonts.mulish(),
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
                           ),
                         ),
-                      );
-                    },
+                      ),
+                    ],
                   ),
                 );
               } else {
