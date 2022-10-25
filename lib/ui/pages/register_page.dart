@@ -21,85 +21,95 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(children: [
-        Container(
-          constraints: const BoxConstraints.expand(),
-          child: const Image(
-              image: AssetImage("assets/images/base_splash.png"),
-              fit: BoxFit.cover),
-        ),
-        Center(
-          child: Container(
-            width: 279,
-            height: 400,
-            padding: const EdgeInsets.all(18),
-            decoration: BoxDecoration(
-                color: Style.mainColor,
-                borderRadius: BorderRadius.circular(30)),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Text(
-                  "Register",
-                  style: GoogleFonts.mulish(
-                      color: Colors.white,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold),
-                ),
-                const Divider(),
-                CustomTextField(
-                    hintText: 'Name',
-                    isObscure: false,
-                    controller: nameController),
-                CustomTextField(
-                    hintText: 'Email',
-                    isObscure: false,
-                    controller: emailController),
-                CustomTextField(
-                    hintText: 'Password',
-                    isObscure: true,
-                    controller: passController),
-                ElevatedButton(
-                  onPressed: () {
-                    if (nameController.text.isNotEmpty &&
-                        emailController.text.isNotEmpty &&
-                        emailController.text.contains('@') &&
-                        passController.text.isNotEmpty) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Success')));
-                      Provider.of<RegisterProvider>(context, listen: false)
-                          .register(nameController.text, emailController.text,
-                              passController.text);
-                      Navigator.pushNamed(context, LoginPage.route);
-                    } else {
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                          content: Text('Please check your form again')));
-                    }
-                  },
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: Style.secondaryColor),
-                  child: Text(
-                    'Register',
-                    style: GoogleFonts.mulish(
-                        fontWeight: FontWeight.bold, fontSize: 16),
-                  ),
-                ),
-                const Divider(),
-                TextButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, LoginPage.route);
-                    },
-                    child: Text(
-                      'Login',
-                      style: GoogleFonts.mulish(color: Colors.white),
-                    ))
-              ],
-            ),
+    return Consumer<RegisterProvider>(builder: (context, state, _) {
+      return Scaffold(
+        body: Stack(children: [
+          Container(
+            constraints: const BoxConstraints.expand(),
+            child: const Image(
+                image: AssetImage("assets/images/base_splash.png"),
+                fit: BoxFit.cover),
           ),
-        )
-      ]),
-    );
+          Center(
+            child: Container(
+              width: 279,
+              height: 400,
+              padding: const EdgeInsets.all(18),
+              decoration: BoxDecoration(
+                  color: Style.mainColor,
+                  borderRadius: BorderRadius.circular(30)),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Text(
+                    "Register",
+                    style: GoogleFonts.mulish(
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  const Divider(),
+                  CustomTextField(
+                      hintText: 'Name',
+                      isObscure: false,
+                      controller: nameController),
+                  CustomTextField(
+                      hintText: 'Email',
+                      isObscure: false,
+                      controller: emailController),
+                  CustomTextField(
+                      hintText: 'Password',
+                      isObscure: true,
+                      controller: passController),
+                  ElevatedButton(
+                    onPressed: () async {
+                      if (nameController.text.isNotEmpty &&
+                          emailController.text.isNotEmpty &&
+                          emailController.text.contains('@') &&
+                          passController.text.isNotEmpty &&
+                          passController.text.length >= 6) {
+                        var user = await Provider.of<RegisterProvider>(context,
+                                listen: false)
+                            .register(nameController.text, emailController.text,
+                                passController.text);
+                        if (user != null) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(content: Text('Success')));
+                          Navigator.pushNamed(context, LoginPage.route);
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text(state.message)));
+                        }
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                content: Text('Please check your form again')));
+                      }
+                    },
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: Style.secondaryColor),
+                    child: Text(
+                      'Register',
+                      style: GoogleFonts.mulish(
+                          fontWeight: FontWeight.bold, fontSize: 16),
+                    ),
+                  ),
+                  const Divider(),
+                  TextButton(
+                      onPressed: () {
+                        Navigator.pushNamed(context, LoginPage.route);
+                      },
+                      child: Text(
+                        'Login',
+                        style: GoogleFonts.mulish(color: Colors.white),
+                      ))
+                ],
+              ),
+            ),
+          )
+        ]),
+      );
+    });
   }
 
   @override
