@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:test_fauzan/data/model/user_account.dart';
 import 'package:test_fauzan/provider/register_provider.dart';
 import 'package:test_fauzan/ui/common/style.dart';
 import 'package:test_fauzan/ui/common/widget.dart';
@@ -68,10 +69,10 @@ class _RegisterPageState extends State<RegisterPage> {
                           emailController.text.contains('@') &&
                           passController.text.isNotEmpty &&
                           passController.text.length >= 6) {
-                        var user = await Provider.of<RegisterProvider>(context,
-                                listen: false)
-                            .register(nameController.text, emailController.text,
-                                passController.text);
+                        UserAccount? user = await state.register(
+                            nameController.text,
+                            emailController.text,
+                            passController.text);
                         if (user != null) {
                           ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(content: Text('Success')));
