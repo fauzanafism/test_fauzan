@@ -1,3 +1,7 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -17,8 +21,9 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passController = TextEditingController();
+  TextEditingController emailController =
+      TextEditingController(text: 'developer@sakti.online');
+  TextEditingController passController = TextEditingController(text: '123456');
 
   @override
   Widget build(BuildContext context) {
@@ -63,13 +68,15 @@ class _LoginPageState extends State<LoginPage> {
                       if (emailController.text.isNotEmpty &&
                           emailController.text.contains('@') &&
                           passController.text.isNotEmpty) {
-                        UserAccount? user = await state.login(
+                        var user = await state.login(
                             emailController.text, passController.text);
                         if (user != null) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(content: Text('Success')));
+                          ScaffoldMessenger.of(context)
+                              .showSnackBar(SnackBar(content: Text(user)));
+                          var userAccount =
+                              UserAccount.fromJson(json.decode(user));
                           Provider.of<HomeProvider>(context, listen: false)
-                              .getList(user.data!.token);
+                              .getList(userAccount.data!.token);
                           Navigator.pushNamed(context, HomePage.route);
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
