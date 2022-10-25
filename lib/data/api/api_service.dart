@@ -11,22 +11,29 @@ class ApiService {
       String name, String email, String password) async {
     final response = await http.post(
         Uri.parse("$_baseUrl/api/authaccount/registration"),
-        body: {"name": name, "email": email, "password": password});
+        body: jsonEncode(<String, String>{
+          "name": name,
+          "email": email,
+          "password": password
+        }),
+        headers: {'Content-Type': 'application/json; charset=UTF-8'});
     if (response.statusCode == 200) {
       return UserAccount.fromJson(json.decode(response.body));
     } else {
-      throw Exception('Failed to register');
+      throw Exception('Register failed');
     }
   }
 
   Future<UserAccount> login(String email, String password) async {
     final response = await http.post(
         Uri.parse("$_baseUrl/api/authaccount/login"),
-        body: {"email": email, "password": password});
+        body:
+            jsonEncode(<String, String>{"email": email, "password": password}),
+        headers: {'Content-type': 'application/json; charset=UTF-8'});
     if (response.statusCode == 200) {
       return UserAccount.fromJson(json.decode(response.body));
     } else {
-      throw Exception('Failed to register');
+      throw Exception('Login failed');
     }
   }
 
