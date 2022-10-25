@@ -68,8 +68,8 @@ class _LoginPageState extends State<LoginPage> {
                         if (user != null) {
                           ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(content: Text('Success')));
-                          // UserAccount userLogin = user;
-                          // Provider.of<HomeProvider>(context, listen: false).getList(user)
+                          Provider.of<HomeProvider>(context, listen: false)
+                              .getList(user.data!.token);
                           Navigator.pushNamed(context, HomePage.route);
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
