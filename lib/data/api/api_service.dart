@@ -37,8 +37,9 @@ class ApiService {
     }
   }
 
-  Future<ListUser> getListUser(String token) async {
-    final response = await http.get(Uri.parse("${_baseUrl}api/users?page=1"),
+  Future<ListUser> getListUser(
+      {required String token, String page = '1'}) async {
+    final response = await http.get(Uri.parse("$_baseUrl/api/users?page=$page"),
         headers: {'Authorization': 'Bearer $token'});
     if (response.statusCode == 200) {
       return ListUser.fromJson(json.decode(response.body));
