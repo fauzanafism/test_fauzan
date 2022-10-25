@@ -81,7 +81,40 @@ class HomePage extends StatelessWidget {
                 );
               }
             },
-          )
+          ),
+          Positioned(
+              bottom: 0,
+              child: Container(
+                padding: const EdgeInsets.all(10),
+                width: MediaQuery.of(context).size.width,
+                child: Consumer<HomeProvider>(builder: (context, state, _) {
+                  return Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Visibility(
+                        visible: (state.page == 1) ? false : true,
+                        child: FloatingActionButton(
+                          backgroundColor: Colors.green,
+                          onPressed: () {
+                            state.page -= 1;
+                            state.getList();
+                          },
+                          child: const Icon(Icons.navigate_before),
+                        ),
+                      ),
+                      FloatingActionButton(
+                        backgroundColor: Colors.green,
+                        onPressed: () {
+                          state.page += 1;
+                          state.getList();
+                        },
+                        child: const Icon(Icons.navigate_next),
+                      ),
+                    ],
+                  );
+                }),
+              ))
         ],
       ),
     );
