@@ -1,3 +1,6 @@
+// ignore_for_file: avoid_single_cascade_in_expression_statements
+
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -61,6 +64,25 @@ class HomePage extends StatelessWidget {
                                       list.location,
                                       style: GoogleFonts.mulish(),
                                     ),
+                                    onTap: () {
+                                      AwesomeDialog(
+                                          context: context,
+                                          title:
+                                              '${list.name} - ${list.location}',
+                                          titleTextStyle: GoogleFonts.mulish(
+                                              fontSize: 25,
+                                              fontWeight: FontWeight.w600),
+                                          width: 300,
+                                          desc: list.email,
+                                          descTextStyle: GoogleFonts.mulish(),
+                                          customHeader: ClipRRect(
+                                            child: Image.network(
+                                              list.profilepicture,
+                                              width: 100,
+                                            ),
+                                          ))
+                                        ..show();
+                                    },
                                   ),
                                 ),
                               );
