@@ -24,14 +24,14 @@ class ApiService {
     }
   }
 
-  Future<String> login(String email, String password) async {
+  Future<UserAccount> login(String email, String password) async {
     final response = await http.post(
         Uri.parse("$_baseUrl/api/authaccount/login"),
         body:
             jsonEncode(<String, String>{"email": email, "password": password}),
         headers: {'Content-type': 'application/json; charset=UTF-8'});
     if (response.statusCode == 200) {
-      return response.body;
+      return UserAccount.fromJson(json.decode(response.body));
     } else {
       throw Exception('Login failed');
     }
