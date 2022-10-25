@@ -30,8 +30,7 @@ class RegisterProvider extends ChangeNotifier {
   late UserAccount _user;
   UserAccount get user => _user;
 
-  Future<UserAccount?> register(
-      String name, String email, String password) async {
+  Future<dynamic> register(String name, String email, String password) async {
     try {
       final user = await apiService.register(name, email, password);
       if (user.data == null) {
@@ -44,6 +43,5 @@ class RegisterProvider extends ChangeNotifier {
       _message = '$e';
       notifyListeners();
     }
-    return null;
   }
 }
