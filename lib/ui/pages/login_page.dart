@@ -67,7 +67,8 @@ class _LoginPageState extends State<LoginPage> {
                     onPressed: () async {
                       if (emailController.text.isNotEmpty &&
                           emailController.text.contains('@') &&
-                          passController.text.isNotEmpty) {
+                          passController.text.isNotEmpty &&
+                          passController.text.length >= 6) {
                         var user = await state.login(
                             emailController.text, passController.text);
                         if (user != null) {
