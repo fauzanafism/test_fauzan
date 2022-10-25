@@ -23,7 +23,7 @@ class HomeProvider extends ChangeNotifier {
     try {
       _userListState = UserListState.loading;
       notifyListeners();
-      final user = await apiService.getListUser(token);
+      final user = await apiService.getListUser(token: token);
       if (user.data.isEmpty) {
         _userListState = UserListState.failed;
         notifyListeners();
