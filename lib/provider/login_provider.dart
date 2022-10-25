@@ -30,18 +30,20 @@ class LoginProvider extends ChangeNotifier {
   late UserAccount _user;
   UserAccount get user => _user;
 
-  Future<dynamic> login(String email, String password) async {
+  Future<UserAccount?> login(String email, String password) async {
     try {
       final user = await apiService.login(email, password);
       if (user.data == null) {
+        _message = 'Failed';
         notifyListeners();
-        return _message = 'Failed';
       } else {
         notifyListeners();
         return _user = user;
       }
     } catch (e) {
-      return _message = '$e';
+      _message = '$e';
+      notifyListeners();
     }
+    return null;
   }
 }
