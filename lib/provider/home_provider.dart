@@ -10,20 +10,33 @@ class HomeProvider extends ChangeNotifier {
 
   HomeProvider({required this.apiService});
 
-  String _message = '';
-  String get message => _message;
-
   late UserListState _userListState;
   UserListState get userListState => _userListState;
 
   late ListUser _list;
   ListUser get list => _list;
 
-  Future<dynamic> getList(String token) async {
+  late String token;
+
+  String _message = '';
+  String get message => _message;
+
+  int _page = 1;
+  int get page => _page;
+  set page(value) {
+    if (_page > 0) {
+      _page = value;
+    } else {
+      _page = 1;
+    }
+  }
+
+  Future<dynamic> getList() async {
     try {
       _userListState = UserListState.loading;
       notifyListeners();
-      final user = await apiService.getListUser(token: token);
+      final user =
+          await apiService.getListUser(token: token, page: _page.toString());
       if (user.data.isEmpty) {
         _userListState = UserListState.failed;
         notifyListeners();
