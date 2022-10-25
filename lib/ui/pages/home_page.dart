@@ -21,23 +21,19 @@ class HomePage extends StatelessWidget {
           Consumer<HomeProvider>(
             builder: (context, state, _) {
               if (state.userListState == UserListState.loading) {
-                return const Center(
-                  child: CircularProgressIndicator(),
+                return Stack(
+                  children: [
+                    SafeArea(child: homeAppBar(state)),
+                    const Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  ],
                 );
               } else if (state.userListState == UserListState.success) {
                 return SafeArea(
                   child: Column(
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 12.0),
-                        child: Text(
-                          'List of Users',
-                          style: GoogleFonts.mulish(
-                              fontSize: 30,
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ),
+                      homeAppBar(state),
                       Expanded(
                         child: Padding(
                           padding: const EdgeInsets.symmetric(
@@ -59,7 +55,7 @@ class HomePage extends StatelessWidget {
                                     title: Text(
                                       list.name,
                                       style: GoogleFonts.mulish(
-                                          fontWeight: FontWeight.w500),
+                                          fontWeight: FontWeight.w600),
                                     ),
                                     subtitle: Text(
                                       list.location,
@@ -115,6 +111,27 @@ class HomePage extends StatelessWidget {
                   );
                 }),
               ))
+        ],
+      ),
+    );
+  }
+
+  Padding homeAppBar(HomeProvider state) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 12.0, left: 18, right: 18),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            'List of Users',
+            style: GoogleFonts.mulish(
+                fontSize: 30, color: Colors.black, fontWeight: FontWeight.bold),
+          ),
+          Text(
+            state.page.toString(),
+            style: GoogleFonts.mulish(
+                fontSize: 30, color: Colors.black, fontWeight: FontWeight.bold),
+          ),
         ],
       ),
     );
