@@ -10,7 +10,6 @@ String userResultToJson(ListUser data) => json.encode(data.toJson());
 
 class ListUser {
   ListUser({
-    required this.id,
     required this.page,
     required this.perPage,
     required this.totalrecord,
@@ -18,7 +17,6 @@ class ListUser {
     required this.data,
   });
 
-  final String id;
   final int page;
   final int perPage;
   final int totalrecord;
@@ -26,7 +24,6 @@ class ListUser {
   final List<Datum> data;
 
   factory ListUser.fromJson(Map<String, dynamic> json) => ListUser(
-        id: json["\u0024id"],
         page: json["page"],
         perPage: json["per_page"],
         totalrecord: json["totalrecord"],
@@ -35,7 +32,6 @@ class ListUser {
       );
 
   Map<String, dynamic> toJson() => {
-        "\u0024id": id,
         "page": page,
         "per_page": perPage,
         "totalrecord": totalrecord,
@@ -46,7 +42,6 @@ class ListUser {
 
 class Datum {
   Datum({
-    required this.id,
     required this.datumId,
     required this.name,
     required this.email,
@@ -55,7 +50,6 @@ class Datum {
     required this.createdat,
   });
 
-  final String id;
   final int datumId;
   final String name;
   final String email;
@@ -64,7 +58,6 @@ class Datum {
   final DateTime createdat;
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
-        id: json["\u0024id"],
         datumId: json["id"],
         name: json["name"],
         email: json["email"],
@@ -74,7 +67,6 @@ class Datum {
       );
 
   Map<String, dynamic> toJson() => {
-        "\u0024id": id,
         "id": datumId,
         "name": name,
         "email": email,
