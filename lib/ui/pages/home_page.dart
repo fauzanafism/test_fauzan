@@ -4,6 +4,7 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:test_fauzan/provider/connection_provider.dart';
 import 'package:test_fauzan/provider/home_provider.dart';
 
 class HomePage extends StatelessWidget {
@@ -21,85 +22,96 @@ class HomePage extends StatelessWidget {
                 image: AssetImage('assets/images/base_home.png'),
                 fit: BoxFit.cover,
               )),
-          Consumer<HomeProvider>(
-            builder: (context, state, _) {
-              if (state.userListState == UserListState.loading) {
-                return Stack(
-                  children: [
-                    SafeArea(child: homeAppBar(state)),
-                    const Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                  ],
-                );
-              } else if (state.userListState == UserListState.success) {
-                return SafeArea(
-                  child: Column(
-                    children: [
-                      homeAppBar(state),
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 8.0, vertical: 20),
-                          child: ListView.builder(
-                            itemCount: state.list.data.length,
-                            itemBuilder: (context, index) {
-                              var list = state.list.data[index];
-                              return Padding(
-                                padding: const EdgeInsets.all(8),
-                                child: Card(
-                                  child: ListTile(
-                                    leading: ClipRRect(
-                                      child: Image.network(
-                                        list.profilepicture,
-                                        width: 50,
+          Consumer<ConnectionProvider>(builder: (context, connection, _) {
+            return Consumer<HomeProvider>(
+              builder: (context, state, _) {
+                if (connection.connectionState == DataState.hasConnection) {
+                  if (state.userListState == UserListState.loading) {
+                    return Stack(
+                      children: [
+                        SafeArea(child: homeAppBar(state)),
+                        const Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                      ],
+                    );
+                  } else if (state.userListState == UserListState.success) {
+                    return SafeArea(
+                      child: Column(
+                        children: [
+                          homeAppBar(state),
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 8.0, vertical: 20),
+                              child: ListView.builder(
+                                itemCount: state.list.data.length,
+                                itemBuilder: (context, index) {
+                                  var list = state.list.data[index];
+                                  return Padding(
+                                    padding: const EdgeInsets.all(8),
+                                    child: Card(
+                                      child: ListTile(
+                                        leading: ClipRRect(
+                                          child: Image.network(
+                                            list.profilepicture,
+                                            width: 50,
+                                          ),
+                                        ),
+                                        title: Text(
+                                          list.name,
+                                          style: GoogleFonts.mulish(
+                                              fontWeight: FontWeight.w600),
+                                        ),
+                                        subtitle: Text(
+                                          list.location,
+                                          style: GoogleFonts.mulish(),
+                                        ),
+                                        onTap: () {
+                                          AwesomeDialog(
+                                              context: context,
+                                              title:
+                                                  '${list.name} - ${list.location}',
+                                              titleTextStyle:
+                                                  GoogleFonts.mulish(
+                                                      fontSize: 25,
+                                                      fontWeight:
+                                                          FontWeight.w600),
+                                              width: 300,
+                                              desc: list.email,
+                                              descTextStyle:
+                                                  GoogleFonts.mulish(),
+                                              customHeader: ClipRRect(
+                                                child: Image.network(
+                                                  list.profilepicture,
+                                                  width: 100,
+                                                ),
+                                              ))
+                                            ..show();
+                                        },
                                       ),
                                     ),
-                                    title: Text(
-                                      list.name,
-                                      style: GoogleFonts.mulish(
-                                          fontWeight: FontWeight.w600),
-                                    ),
-                                    subtitle: Text(
-                                      list.location,
-                                      style: GoogleFonts.mulish(),
-                                    ),
-                                    onTap: () {
-                                      AwesomeDialog(
-                                          context: context,
-                                          title:
-                                              '${list.name} - ${list.location}',
-                                          titleTextStyle: GoogleFonts.mulish(
-                                              fontSize: 25,
-                                              fontWeight: FontWeight.w600),
-                                          width: 300,
-                                          desc: list.email,
-                                          descTextStyle: GoogleFonts.mulish(),
-                                          customHeader: ClipRRect(
-                                            child: Image.network(
-                                              list.profilepicture,
-                                              width: 100,
-                                            ),
-                                          ))
-                                        ..show();
-                                    },
-                                  ),
-                                ),
-                              );
-                            },
+                                  );
+                                },
+                              ),
+                            ),
                           ),
-                        ),
+                        ],
                       ),
-                    ],
-                  ),
-                );
-              } else {
-                return Center(
-                  child: Text(state.message),
-                );
-              }
-            },
-          ),
+                    );
+                  } else {
+                    return Center(
+                      child: Text(state.message),
+                    );
+                  }
+                } else {
+                  return const Center(
+                    child: Text('No internet connection'),
+                  );
+                }
+              },
+            );
+          }),
           Positioned(
               bottom: 0,
               child: Container(
