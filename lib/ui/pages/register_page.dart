@@ -1,7 +1,8 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:test_fauzan/data/model/user_account.dart';
 import 'package:test_fauzan/provider/register_provider.dart';
 import 'package:test_fauzan/ui/common/style.dart';
 import 'package:test_fauzan/ui/common/widget.dart';
@@ -78,7 +79,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         Navigator.pushNamed(context, LoginPage.route);
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('Register failed')));
+                            const SnackBar(content: Text('Register failed')));
                       }
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
