@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:test_fauzan/provider/connection_provider.dart';
 import 'package:test_fauzan/provider/home_provider.dart';
 import 'package:test_fauzan/provider/login_provider.dart';
 import 'package:test_fauzan/ui/common/style.dart';
@@ -60,40 +61,52 @@ class _LoginPageState extends State<LoginPage> {
                       hintText: 'Password',
                       isObscure: true,
                       controller: passController),
-                  ElevatedButton(
-                    onPressed: () async {
-                      if (emailController.text.isNotEmpty &&
-                          emailController.text.contains('@') &&
-                          passController.text.isNotEmpty &&
-                          passController.text.length >= 6) {
-                        var user = await state.login(
-                            emailController.text, passController.text);
-                        if (user != null) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(content: Text('Success')));
-                          Provider.of<HomeProvider>(context, listen: false)
-                              .token = user.data!.token;
-                          Provider.of<HomeProvider>(context, listen: false)
-                              .getList();
-                          Navigator.pushNamed(context, HomePage.route);
+                  Consumer<ConnectionProvider>(
+                      builder: (context, connection, _) {
+                    return ElevatedButton(
+                      onPressed: () async {
+                        if (emailController.text.isNotEmpty &&
+                            emailController.text.contains('@') &&
+                            passController.text.isNotEmpty &&
+                            passController.text.length >= 6) {
+                          if (connection.connectionState ==
+                              DataState.hasConnection) {
+                            var user = await state.login(
+                                emailController.text, passController.text);
+                            if (user != null) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(content: Text('Success')));
+                              Provider.of<HomeProvider>(context, listen: false)
+                                  .token = user.data!.token;
+                              Provider.of<HomeProvider>(context, listen: false)
+                                  .getList();
+                              Navigator.pushNamed(context, HomePage.route);
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text(state.message)));
+                            }
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    content:
+                                        Text('Please check your connection')));
+                          }
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text(state.message)));
+                              const SnackBar(
+                                  content:
+                                      Text('Please check your form again')));
                         }
-                      } else {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                                content: Text('Please check your form again')));
-                      }
-                    },
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: Style.secondaryColor),
-                    child: Text(
-                      'Login',
-                      style: GoogleFonts.mulish(
-                          fontWeight: FontWeight.bold, fontSize: 16),
-                    ),
-                  ),
+                      },
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Style.secondaryColor),
+                      child: Text(
+                        'Login',
+                        style: GoogleFonts.mulish(
+                            fontWeight: FontWeight.bold, fontSize: 16),
+                      ),
+                    );
+                  }),
                   const Divider(),
                   TextButton(
                       onPressed: () {
