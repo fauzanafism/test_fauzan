@@ -1,11 +1,8 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:test_fauzan/data/model/user_account.dart';
 import 'package:test_fauzan/provider/home_provider.dart';
 import 'package:test_fauzan/provider/login_provider.dart';
 import 'package:test_fauzan/ui/common/style.dart';
@@ -72,12 +69,12 @@ class _LoginPageState extends State<LoginPage> {
                         var user = await state.login(
                             emailController.text, passController.text);
                         if (user != null) {
-                          ScaffoldMessenger.of(context)
-                              .showSnackBar(SnackBar(content: Text(user)));
-                          var userAccount =
-                              UserAccount.fromJson(json.decode(user));
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(content: Text('Success')));
                           Provider.of<HomeProvider>(context, listen: false)
-                              .getList(userAccount.data!.token);
+                              .token = user.data!.token;
+                          Provider.of<HomeProvider>(context, listen: false)
+                              .getList();
                           Navigator.pushNamed(context, HomePage.route);
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
