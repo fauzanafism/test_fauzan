@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:test_fauzan/data/api/api_service.dart';
+import 'package:test_fauzan/provider/connection_provider.dart';
 import 'package:test_fauzan/provider/home_provider.dart';
 import 'package:test_fauzan/provider/login_provider.dart';
 import 'package:test_fauzan/provider/register_provider.dart';
@@ -20,6 +21,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        ChangeNotifierProvider<ConnectionProvider>(
+          create: (_) => ConnectionProvider(),
+        ),
         ChangeNotifierProvider<RegisterProvider>(
           create: (_) => RegisterProvider(apiService: ApiService()),
         ),
