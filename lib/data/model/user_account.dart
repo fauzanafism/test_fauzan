@@ -14,7 +14,7 @@ class UserAccount {
     required this.id,
     required this.code,
     required this.message,
-    this.data,
+    required this.data,
   });
 
   final String id;
@@ -26,14 +26,14 @@ class UserAccount {
         id: json["\u0024id"],
         code: json["code"],
         message: json["message"],
-        data: Data.fromJson(json["data"]),
+        data: json["data"] == null ? null : Data.fromJson(json["data"]),
       );
 
   Map<String, dynamic> toJson() => {
         "\u0024id": id,
         "code": code,
         "message": message,
-        "data": data!.toJson(),
+        "data": data == null ? null : data!.toJson(),
       };
 }
 
