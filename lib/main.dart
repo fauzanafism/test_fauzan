@@ -35,6 +35,7 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         title: 'Test Fauzan App',
+        theme: ThemeData(primarySwatch: Colors.green),
         initialRoute: RegisterPage.route,
         routes: {
           RegisterPage.route: (context) => const RegisterPage(),
