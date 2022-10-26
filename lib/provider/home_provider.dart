@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:test_fauzan/data/model/list_user.dart';
 
 import '../data/api/api_service.dart';
@@ -16,7 +17,12 @@ class HomeProvider extends ChangeNotifier {
   late ListUser _list;
   ListUser get list => _list;
 
-  late String token;
+  String token = '';
+  bool _isLogin = false;
+  bool get isLogin => _isLogin;
+  set isLogin(value) {
+    _isLogin = value;
+  }
 
   String _message = '';
   String get message => _message;
@@ -29,6 +35,20 @@ class HomeProvider extends ChangeNotifier {
     } else {
       _page = 1;
     }
+  }
+
+  void getLoginInfo() async {
+    final prefs = await SharedPreferences.getInstance();
+    token = prefs.getString('token') ?? token;
+    _isLogin = prefs.getBool('isLogin') ?? _isLogin;
+  }
+
+  void _saveLoginInfo() async {
+    final prefs = await SharedPreferences.getInstance();
+    _isLogin = true;
+
+    prefs.setString('token', token);
+    prefs.setBool('isLogin', _isLogin);
   }
 
   Future<dynamic> getList() async {
@@ -44,6 +64,7 @@ class HomeProvider extends ChangeNotifier {
       } else {
         _userListState = UserListState.success;
         notifyListeners();
+        _saveLoginInfo();
         return _list = user;
       }
     } catch (e) {
