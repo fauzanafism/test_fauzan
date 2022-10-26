@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         title: 'Test Fauzan App',
-        initialRoute: HomePage.route,
+        initialRoute: RegisterPage.route,
         routes: {
           RegisterPage.route: (context) => const RegisterPage(),
           LoginPage.route: (context) => const LoginPage(),
