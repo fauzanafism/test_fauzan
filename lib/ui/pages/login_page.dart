@@ -73,13 +73,22 @@ class _LoginPageState extends State<LoginPage> {
                             var user = await state.login(
                                 emailController.text, passController.text);
                             if (user != null) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(content: Text('Success')));
-                              Provider.of<HomeProvider>(context, listen: false)
-                                  .token = user.data!.token;
-                              Provider.of<HomeProvider>(context, listen: false)
-                                  .getList();
-                              Navigator.pushNamed(context, HomePage.route);
+                              try {
+                                Provider.of<HomeProvider>(context,
+                                        listen: false)
+                                    .token = user.data!.token;
+                                Provider.of<HomeProvider>(context,
+                                        listen: false)
+                                    .getList();
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(content: Text('Success')));
+                                Navigator.pushNamed(context, HomePage.route);
+                              } catch (_) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                        content:
+                                            Text('Wrong email or password')));
+                              }
                             } else {
                               ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(content: Text(state.message)));
